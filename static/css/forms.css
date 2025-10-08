@@ -73,7 +73,7 @@ label.checkbox-group {
 .total-net, .balance { font-family: var(--font-heading); font-size: 1.4rem !important; font-weight: 700 !important; color: var(--color-accent); transition: color 0.3s; }
 
 .terms ul { list-style-position: inside; color: #757575; }
-.dark-theme .terms ul { color: var(--color-text); opacity: 0.8; }
+html.dark-theme .terms ul { color: var(--color-text); opacity: 0.8; }
 .terms li {
     margin-bottom: 0.5rem;
 }  

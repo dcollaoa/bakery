@@ -43,7 +43,7 @@ table tbody tr:hover {
     background-color: #fdeaf1; /* A very light pink hover */
 }
 
-.dark-theme table tbody tr:hover {
+html.dark-theme table tbody tr:hover {
     background-color: rgba(240, 98, 146, 0.1);
 }
 

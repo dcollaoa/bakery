@@ -38,7 +38,6 @@ def init_db():
             CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 client_id INTEGER NOT NULL,
-                event_date TEXT,
                 delivery_date TEXT,
                 delivery_time TEXT,
                 is_delivery_enabled INTEGER,
@@ -222,10 +221,9 @@ def add_order():
     try:
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT INTO orders (client_id, event_date, delivery_date, delivery_time, is_delivery_enabled, delivery_address, observations, products_json, subtotal, shipping, total_net, deposit, balance, anticipo_pagado, pendiente_pagado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO orders (client_id, delivery_date, delivery_time, is_delivery_enabled, delivery_address, observations, products_json, subtotal, shipping, total_net, deposit, balance, anticipo_pagado, pendiente_pagado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             (
                 order_data['client_id'],
-                order_data['event_date'],
                 order_data['delivery_date'],
                 order_data['delivery_time'],
                 order_data['is_delivery_enabled'],
@@ -260,92 +258,48 @@ def get_order(order_id):
 
 @app.route('/api/orders/<int:order_id>', methods=['PUT'])
 def update_order(order_id):
-    updated_data = request.json
+    order = request.get_json()
     conn = get_db_connection()
+    cursor = conn.cursor()
     try:
-        cursor = conn.cursor()
         cursor.execute(
-            'UPDATE orders SET client_id = ?, event_date = ?, delivery_date = ?, delivery_time = ?, is_delivery_enabled = ?, delivery_address = ?, observations = ?, products_json = ?, subtotal = ?, shipping = ?, total_net = ?, deposit = ?, balance = ? WHERE id = ?',
-            (
-                updated_data['client_id'],
-                updated_data['event_date'],
-                updated_data['delivery_date'],
-                updated_data['delivery_time'],
-                updated_data['is_delivery_enabled'],
-                updated_data['delivery_address'],
-                json.dumps(updated_data['observations']),
-                json.dumps(updated_data['products_json']),
-                updated_data['subtotal'],
-                updated_data['shipping'],
-                updated_data['total_net'],
-                updated_data['deposit'],
-                updated_data['balance'],
-                order_id
-            )
+            """UPDATE orders SET client_id = ?, client_name = ?, delivery_date = ?, delivery_time = ?,
+                       is_delivery_enabled = ?, delivery_address = ?, products_json = ?, subtotal = ?, shipping = ?,
+                       total_net = ?, deposit = ?, balance = ?, anticipo_pagado = ?, pendiente_pagado = ? WHERE id = ?""",
+            (order['client_id'], order['client_name'], order['delivery_date'], order['delivery_time'],
+             order['is_delivery_enabled'], order['delivery_address'], json.dumps(order['products_json']),
+             order['subtotal'], order['shipping'], order['total_net'], order['deposit'], order['balance'],
+             order['anticipo_pagado'], order['pendiente_pagado'], order_id)
         )
         conn.commit()
+        return jsonify({"success": True, "message": "Order updated successfully"}), 200
+    except sqlite3.Error as e:
+        conn.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+    finally:
         conn.close()
-        if cursor.rowcount == 0:
-            return jsonify({'error': 'Order not found'}), 404
-        return jsonify({'message': 'Order updated successfully'})
-    except sqlite3.IntegrityError:
-        conn.close()
-        return jsonify({'error': 'Client with this email already exists'}), 409
-    except Exception as e:
-        conn.close()
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/api/orders/<int:order_id>/payment', methods=['PUT'])
+        
+@app.route('/api/orders/<int:order_id>/payment-status', methods=['PUT'])
 def update_order_payment_status(order_id):
-    updated_data = request.json
-    anticipo_pagado = updated_data.get('anticipo_pagado')
-    pendiente_pagado = updated_data.get('pendiente_pagado')
+    data = request.get_json()
+    anticipo_pagado = data.get('anticipo_pagado')
+    pendiente_pagado = data.get('pendiente_pagado')
 
     conn = get_db_connection()
+    cursor = conn.cursor()
     try:
-        cursor = conn.cursor()
-        if anticipo_pagado is not None and pendiente_pagado is not None:
-            cursor.execute('UPDATE orders SET anticipo_pagado = ?, pendiente_pagado = ? WHERE id = ?', (anticipo_pagado, pendiente_pagado, order_id))
-        elif anticipo_pagado is not None:
-            cursor.execute('UPDATE orders SET anticipo_pagado = ? WHERE id = ?', (anticipo_pagado, order_id))
-        elif pendiente_pagado is not None:
-            cursor.execute('UPDATE orders SET pendiente_pagado = ? WHERE id = ?', (pendiente_pagado, order_id))
-        else:
-            return jsonify({'error': 'No payment status provided'}), 400
-
+        cursor.execute(
+            "UPDATE orders SET anticipo_pagado = ?, pendiente_pagado = ? WHERE id = ?",
+            (anticipo_pagado, pendiente_pagado, order_id)
+        )
         conn.commit()
+        return jsonify({"success": True, "message": "Payment status updated successfully"}), 200
+    except sqlite3.Error as e:
+        conn.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+    finally:
         conn.close()
-        if cursor.rowcount == 0:
-            return jsonify({'error': 'Order not found'}), 404
-        return jsonify({'message': 'Order payment status updated successfully'})
-    except Exception as e:
-        conn.close()
-        return jsonify({'error': str(e)}), 500
 
-@app.route('/api/orders/<int:order_id>', methods=['DELETE'])
-def delete_order(order_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM orders WHERE id = ?', (order_id,))
-    conn.commit()
-    conn.close()
-    if cursor.rowcount == 0:
-        return jsonify({'error': 'Order not found'}), 404
-    return jsonify({'message': 'Order deleted successfully'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
-
-@app.route('/api/orders/<int:order_id>', methods=['DELETE'])
-def delete_order(order_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM orders WHERE id = ?', (order_id,))
-    conn.commit()
-    conn.close()
-    if cursor.rowcount == 0:
-        return jsonify({'error': 'Order not found'}), 404
-    return jsonify({'message': 'Order deleted successfully'})
-
-if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True)

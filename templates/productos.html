@@ -50,5 +50,8 @@
 {% endblock %}
 
 {% block scripts %}
+    <!-- ✅ IMPORTANTE: Cargar FormatUtils PRIMERO -->
+    <script src="{{ url_for('static', filename='utils/format.js') }}"></script>
     <script src="{{ url_for('static', filename='productos.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

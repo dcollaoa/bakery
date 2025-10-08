@@ -17,7 +17,7 @@
     --switch-icon: '🌙';
 }
 
-.dark-theme {
+html.dark-theme {
     --color-background: #2C1B21;
     --color-surface: #3E2C34;
     --color-primary: #F8BBD0;

@@ -2,7 +2,7 @@
 
 {% block title %}Gestión de Pedidos{% endblock %}
 
-{% block page_title %}Gestión de Pedidos{% endblock %}
+{% block head_extra %}{% endblock %}
 
 {% block content %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
@@ -56,11 +56,7 @@
                         <section class="order-details">
                             <h3>Detalles del Encargo</h3>
                             <div class="form-grid">
-                                <div class="form-group">
-                                    <input type="date" id="event-date" required>
-                                    <label for="event-date">Fecha del Evento:</label>
-                                    <div class="error-message">Este campo es obligatorio.</div>
-                                </div>
+
                                 <div class="form-group">
                                     <input type="date" id="delivery-date" required>
                                     <label for="delivery-date">Fecha de Entrega/Recogida:</label>
@@ -88,7 +84,7 @@
 
                     <!-- Step 3: Product Details -->
                     <div class="form-step" data-step="3">
-                        <section class="product-details">
+                        <section class="product-details product-observations">
                             <h3>Seleccionar Productos</h3>
                             <div class="form-grid">
                                 <div class="form-group">
@@ -136,7 +132,7 @@
                                 <!-- Observations will be added here by JavaScript -->
                             </ul>
                             <div class="product-observations">
-                                <h4>Observaciones por Producto:</h4>
+                                
                                 <div class="observation-tabs-nav" id="productObservationTabsNav">
                                     <!-- Product observation tabs will be dynamically added here -->
                                 </div>
@@ -178,7 +174,9 @@
                         </section>
 
                         <div id="pdf-export-area"></div>
-                        <button type="button" id="confirmOrder" class="nav-btn">Confirmar Pedido</button>
+                        <div style="text-align: right; margin-top: 1rem;">
+                            <button type="button" id="confirmOrder" class="nav-btn">Confirmar Pedido</button>
+                        </div>
                     </div>
                 </div>
 
@@ -186,7 +184,7 @@
                 <div class="form-nav">
                     <button type="button" class="nav-btn prev">Anterior</button>
                     <button type="button" class="nav-btn next">Siguiente</button>
-                    <button type="button" id="generate-pdf" class="nav-btn">Generar PDF</button>
+
                 </div>
             </form>
         </div>
@@ -196,15 +194,15 @@
             <table id="order-list-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Fecha Evento</th>
-                        <th>Fecha Entrega</th>
-                        <th>Anticipo</th>
-                        <th>Pendiente</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
+                                                                        <th>ID</th>
+                                                                        <th>Cliente</th>
+                                                                        <th>Fecha Creación</th>
+                                                                        <th>Fecha Entrega</th>
+                                                                        <th>Valor Total</th>
+                                                                        <th>Abonado</th>
+                                                                        <th>Saldo Pendiente</th>
+                                                                        <th>Estado</th>
+                                                                        <th>Acciones</th>                    </tr>
                 </thead>
                 <tbody id="ordersTableBody">
                     <!-- Order rows will be loaded here by JavaScript -->
@@ -214,7 +212,7 @@
     </div>
 
     <!-- Order Detail Modal -->
-    <div id="order-detail-modal" class="modal hidden">
+    <div id="order-detail-modal" class="modal force-hidden">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h3>Detalles del Pedido #<span id="modal-order-id"></span></h3>
@@ -227,7 +225,7 @@
                 </div>
                 <div class="modal-section">
                     <h4>Detalles del Encargo</h4>
-                    <p><strong>Fecha del Evento:</strong> <span id="modal-event-date"></span></p>
+
                     <p><strong>Fecha de Entrega:</strong> <span id="modal-delivery-date"></span> a las <span id="modal-delivery-time"></span></p>
                     <p><strong>Entrega a Domicilio:</strong> <span id="modal-is-delivery-enabled"></span></p>
                     <p id="modal-delivery-address-row"><strong>Dirección:</strong> <span id="modal-delivery-address"></span></p>
@@ -252,10 +250,27 @@
                     <p><strong>Anticipo Pagado:</strong> <span id="modal-deposit"></span></p>
                     <p><strong>Resto a Pagar:</strong> <span id="modal-balance"></span></p>
                 </div>
-                <div class="modal-section">
-                    <h4>Estado del Pago</h4>
-                    <p><strong>Anticipo:</strong> <span id="modal-anticipo-status"></span></p>
-                    <p><strong>Pendiente:</strong> <span id="modal-pendiente-status"></span></p>
+                <div class="modal-section" id="payment-management-section">
+                    <h4>Gestión de Pagos</h4>
+                    <div class="payment-status-grid">
+                        <div class="payment-status-item">
+                            <label for="anticipo-paid-switch">Anticipo Pagado</label>
+                            <label class="switch">
+                                <input type="checkbox" id="anticipo-paid-switch">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="payment-status-item">
+                            <label for="pendiente-paid-switch">Pendiente Pagado</label>
+                            <label class="switch">
+                                <input type="checkbox" id="pendiente-paid-switch">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-right" style="margin-top: 1.5rem;">
+                        <button id="save-payment-status-btn" class="nav-btn">Guardar Cambios</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -263,6 +278,8 @@
 {% endblock %}
 
 {% block scripts %}
+    <!-- ✅ IMPORTANTE: Cargar FormatUtils PRIMERO -->
+    <script src="{{ url_for('static', filename='utils/format.js') }}"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script src="{{ url_for('static', filename='orders.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

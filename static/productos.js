@@ -1,3 +1,9 @@
+/**
+ * Productos.js - Gestión de Productos REFACTORIZADO
+ * Ahora usa FormatUtils para formateo consistente de precios
+ * @version 2.0.0
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     const productForm = document.getElementById('product-form');
     const productIdInput = document.getElementById('product-id');
@@ -9,17 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let editingProductId = null;
 
-    // Function to fetch and display products
+    /**
+     * ✅ FUNCIÓN REFACTORIZADA - Ahora usa FormatUtils
+     * Obtiene y muestra los productos con formato correcto
+     */
     async function fetchProducts() {
         const response = await fetch('/api/products');
         const products = await response.json();
-        productListTableBody.innerHTML = ''; // Clear existing rows
+        productListTableBody.innerHTML = '';
+        
         products.forEach(product => {
             const row = productListTableBody.insertRow();
             row.innerHTML = `
                 <td>${product.id}</td>
                 <td>${product.name}</td>
-                <td>${Math.round(product.price).toLocaleString('es-ES')}</td>
+                <td>${FormatUtils.formatPrice(product.price)}</td>
                 <td>
                     <button type="button" class="action-btn edit-btn" data-id="${product.id}"><i class="fas fa-edit"></i></button>
                     <button type="button" class="action-btn delete-btn" data-id="${product.id}"><i class="fas fa-trash"></i></button>
@@ -28,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to handle form submission (Add/Update)
+    // Manejo del formulario (Agregar/Actualizar)
     productForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -44,14 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let response;
 
         if (editingProductId) {
-            // Update existing product
+            // Actualizar producto existente
             response = await fetch(`/api/products/${editingProductId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(productData)
             });
         } else {
-            // Add new product
+            // Agregar nuevo producto
             response = await fetch('/api/products', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -64,21 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
             editingProductId = null;
             saveProductBtn.textContent = 'Guardar Producto';
             cancelEditBtn.style.display = 'none';
-            fetchProducts(); // Refresh the list
+            fetchProducts();
         } else {
             const errorData = await response.json();
             alert(`Error: ${errorData.error || response.statusText}`);
         }
     });
 
-    // Handle Edit and Delete buttons
+    // Manejo de botones Editar y Eliminar
     productListTableBody.addEventListener('click', async (e) => {
         const editBtn = e.target.closest('.edit-btn');
         const deleteBtn = e.target.closest('.delete-btn');
 
         if (editBtn) {
             const id = editBtn.dataset.id;
-            const response = await fetch(`/api/products`); // Fetch all to find the one to edit
+            const response = await fetch(`/api/products`);
             const products = await response.json();
             const productToEdit = products.find(p => p.id == id);
 
@@ -96,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    fetchProducts(); // Refresh the list
+                    fetchProducts();
                 } else {
                     const errorData = await response.json();
                     alert(`Error: ${errorData.error || response.statusText}`);
@@ -105,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Cancel Edit button functionality
+    // Funcionalidad del botón Cancelar Edición
     cancelEditBtn.addEventListener('click', () => {
         productForm.reset();
         editingProductId = null;
@@ -113,6 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelEditBtn.style.display = 'none';
     });
 
-    // Initial fetch of products when the page loads
+    // Cargar productos al iniciar
     fetchProducts();
 });

@@ -50,3 +50,15 @@
 #add-row:hover { transform: translateY(-3px); box-shadow: 0 8px 15px var(--shadow-color); }
 .remove-row { background-color: transparent; color: var(--color-error); font-weight: bold; }
 .remove-row:hover { background-color: rgba(217, 83, 79, 0.1); }
+
+.action-buttons {
+    display: flex;
+    gap: 5px; /* Adjust as needed for spacing between buttons */
+    justify-content: center; /* Center the buttons if desired */
+    align-items: center;
+}
+
+.action-buttons .nav-btn {
+    padding: 5px 8px; /* Smaller padding for smaller buttons */
+    line-height: 1; /* Adjust line height to prevent extra space */
+}

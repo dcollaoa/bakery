@@ -1,6 +1,9 @@
-/*------------------------------------*\ 
-    #MODAL STYLES
-\*------------------------------------*/
+/*------------------------------------*
+#MODAL STYLES - "THE SWEET CORNER"\n*------------------------------------*/
+
+.force-hidden {
+    display: none !important;
+}
 
 .modal {
     position: fixed;
@@ -10,27 +13,34 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(92, 75, 81, 0.6); /* Dark Rose Grey with opacity */
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.modal.hidden {
+    display: none;
 }
 
 .modal-content {
     background-color: var(--color-surface);
     margin: auto;
-    padding: 3rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    width: 90%;
+    padding: 2.5rem 3rem;
+    border-radius: 24px; /* Slightly more rounded */
+    border: 2px dashed var(--color-border);
+    box-shadow: 0 8px 25px var(--shadow-color);
+    max-width: 650px;
+    width: 95%;
     position: relative;
-    animation: slide-down 0.4s ease-out;
+    animation: slide-down 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 @keyframes slide-down {
     from {
-        transform: translateY(-30px);
+        transform: translateY(-50px);
         opacity: 0;
     }
     to {
@@ -40,30 +50,49 @@
 }
 
 .close-button {
-    color: var(--color-border);
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    color: var(--color-text);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: 2rem;
+    top: -15px;
+    right: -15px;
+    font-size: 1.5rem;
     font-weight: bold;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--shadow-color);
 }
 
 .close-button:hover,
 .close-button:focus {
+    background-color: var(--color-accent);
+    color: var(--color-surface);
+    border-color: var(--color-accent);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.modal-content h3 {
+    font-family: var(--font-heading);
     color: var(--color-accent);
-    text-decoration: none;
-    cursor: pointer;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .modal-body {
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .modal-section {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px dashed var(--color-border);
 }
 
 .modal-section:last-child {
@@ -73,15 +102,132 @@
 
 .modal-section h4 {
     font-family: var(--font-heading);
-    color: var(--color-accent);
+    color: var(--color-text);
+    opacity: 0.8;
     margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
 }
 
-.modal-section p {
-    margin-bottom: 0.5rem;
+.modal-section p, .modal-section li {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.modal-section strong {
+    color: var(--color-accent);
+    font-weight: 600;
 }
 
 .modal-section ul {
-    list-style-position: inside;
-    padding-left: 1rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.modal-section ul li::before {
+    content: '✓';
+    color: var(--color-accent);
+    margin-right: 0.75rem;
+    font-weight: bold;
+}
+
+#modal-products-list li, #modal-observations-list li {
+    background-color: rgba(248, 187, 208, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+}
+
+html.dark-theme #modal-products-list li,
+html.dark-theme #modal-observations-list li {
+    background-color: rgba(248, 187, 208, 0.05);
+}
+
+.payment-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.payment-status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(248, 187, 208, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+}
+
+html.dark-theme .payment-status-item {
+    background-color: rgba(248, 187, 208, 0.05);
+}
+
+.payment-status-item label {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--color-accent);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--color-accent);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

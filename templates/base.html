@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Plantilla Base{% endblock %}</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modals.css') }}">
     {% block head_extra %}{% endblock %}
 </head>
 <body>
@@ -32,6 +41,8 @@
         {% endblock %}
     </div>
     {% block scripts %}
+        <!-- ✅ IMPORTANTE: Cargar FormatUtils PRIMERO -->
+        <script src="{{ url_for('static', filename='utils/format.js') }}"></script>
         <script src="{{ url_for('static', filename='script.js') }}"></script>
     {% endblock %}
 </body>
