@@ -23,9 +23,9 @@
 }
 
 .tab-button {
-    font-family: var(--font-body);
-    background-color: var(--color-primary); /* Soft Pink */
-    color: var(--color-text); /* Dark Rose Grey */
+    font-family: var(--font-heading);
+    background-color: var(--color-accent); /* Dusty Rose */
+    color: var(--color-surface); /* White text */
     border: 1px solid var(--color-border);
     border-radius: 25px;
     padding: 8px 18px;
@@ -35,14 +35,14 @@
 }
 
 .tab-button:hover {
-    background-color: var(--color-accent); /* Dusty Rose on hover */
+    background-color: var(--color-primary); /* Soft Pink on hover */
     box-shadow: 2px 2px 7px var(--shadow-color);
 }
 
 .tab-button.active {
-    background-color: var(--color-accent); /* Dusty Rose when active */
+    background-color: var(--color-text); /* Dark Rose Grey when active */
     color: var(--color-surface); /* White text when active */
-    border-color: var(--color-accent);
+    border-color: var(--color-text);
     box-shadow: 2px 2px 7px var(--shadow-color);
 }
 
@@ -89,11 +89,12 @@
 .input-group {
     display: flex;
     margin-top: 15px;
+    gap: 10px; /* Add gap for spacing */
 }
 
 .input-group .form-control {
     flex-grow: 1;
-    border-radius: 8px;
+    border-radius: 25px; /* Match button radius */
     border: 1px solid var(--color-border);
     padding: 10px 15px;
     font-family: var(--font-body);
@@ -105,53 +106,65 @@
     opacity: 0.7;
 }
 
-.input-group .btn {
-    border-radius: 8px;
-    margin-left: 10px;
+/* Base style for all observation action buttons */
+.observation-btn {
+    border-radius: 25px;
+    border: 1px solid transparent;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+}
+
+.observation-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 5px var(--shadow-color);
+}
+
+/* --- Specific Button Colors --- */
+
+/* 'Add' button */
+.add-product-observation-btn {
     background-color: var(--color-accent); /* Dusty Rose */
     color: var(--color-surface); /* White text */
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
-
-.input-group .btn:hover {
+.add-product-observation-btn:hover {
     background-color: var(--color-primary); /* Soft Pink on hover */
+    color: var(--color-text);
 }
 
-/* Specific button styles for observations */
+/* 'Edit' button */
 .edit-observation-btn {
-    background-color: var(--color-primary) !important; /* Soft Pink */
-    color: var(--color-text) !important;
-    border: 1px solid var(--color-primary) !important;
+    background-color: var(--color-primary); /* Soft Pink */
+    color: var(--color-text);
 }
 
 .edit-observation-btn:hover {
-    background-color: var(--color-accent) !important;
-    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent);
+    color: var(--color-surface);
 }
 
+/* 'Delete' button */
 .delete-observation-btn {
-    background-color: var(--color-error) !important; /* Error Red */
-    color: var(--color-surface) !important;
-    border: 1px solid var(--color-error) !important;
+    background-color: var(--color-error); /* Error Red */
+    color: var(--color-surface);
 }
 
 .delete-observation-btn:hover {
-    background-color: darken(var(--color-error), 10%) !important; /* Darker red on hover */
-    border-color: darken(var(--color-error), 10%) !important;
+    opacity: 0.8;
 }
 
+/* 'Save' button */
 .save-observation-btn {
-    background-color: var(--color-accent) !important; /* Dusty Rose */
-    color: var(--color-surface) !important;
-    border: 1px solid var(--color-accent) !important;
+    background-color: var(--color-accent); /* Dusty Rose */
+    color: var(--color-surface);
 }
 
 .save-observation-btn:hover {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    background-color: var(--color-primary);
+    color: var(--color-text);
 }
 
 .edit-observation-input {
