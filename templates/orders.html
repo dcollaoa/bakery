@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Pedidos{% endblock %}
+
+{% block page_title %}Gestión de Pedidos{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sweet-corner.css') }}">
+    <div class="order-management-container">
+        <div class="order-creation-form">
+            <form id="order-form">
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-bar-step active" data-step="1">1</div>
+                    <div class="progress-bar-step" data-step="2">2</div>
+                    <div class="progress-bar-step" data-step="3">3</div>
+                    <div class="progress-bar-step" data-step="4">4</div>
+                    <div class="progress-bar-step" data-step="5">5</div>
+                </div>
+
+                <div id="form-content-wrapper">
+                    <!-- Step 1: Client Selection -->
+                    <div class="form-step active" data-step="1">
+                        <section class="client-selection">
+                            <h3>Seleccionar Cliente</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <select id="clientSelect" required>
+                                        <option value="">-- Seleccionar Cliente --</option>
+                                        <!-- Client options will be loaded here by JavaScript -->
+                                    </select>
+                                    <label for="client-select">Cliente:</label>
+                                    <div class="error-message">Por favor, selecciona un cliente.</div>
+                                </div>
+                                <div id="client-display-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" id="client-name-display" placeholder=" " readonly>
+                                        <label for="client-name-display">Nombre:</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" id="client-phone-display" placeholder=" " readonly>
+                                        <label for="client-phone-display">Teléfono:</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" id="client-email-display" placeholder=" " readonly>
+                                        <label for="client-email-display">Email:</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Step 2: Order Details -->
+                    <div class="form-step" data-step="2">
+                        <section class="order-details">
+                            <h3>Detalles del Encargo</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <input type="date" id="event-date" required>
+                                    <label for="event-date">Fecha del Evento:</label>
+                                    <div class="error-message">Este campo es obligatorio.</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" id="delivery-date" required>
+                                    <label for="delivery-date">Fecha de Entrega/Recogida:</label>
+                                    <div class="error-message">Este campo es obligatorio.</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" id="delivery-time" required>
+                                    <label for="delivery-time">Hora:</label>
+                                    <div class="error-message">Este campo es obligatorio.</div>
+                                </div>
+                                <div class="form-group full-width" style="margin-bottom: 1em;">
+                                    <label class="checkbox-group">
+                                        <input type="checkbox" id="enable-delivery">
+                                        Habilitar entrega a domicilio
+                                    </label>
+                                </div>
+                                <div id="delivery-address-group" class="form-group full-width" style="visibility: hidden;">
+                                    <input type="text" id="delivery-address" placeholder=" ">
+                                    <label for="delivery-address">Dirección de Entrega:</label>
+                                    <div class="error-message">Este campo es obligatorio.</div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Step 3: Product Details -->
+                    <div class="form-step" data-step="3">
+                        <section class="product-details">
+                            <h3>Seleccionar Productos</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <select id="productSelect" required>
+                                        <option value="">-- Seleccionar Producto --</option>
+                                    </select>
+                                    <label for="productSelect">Producto:</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="productQuantity" value="1" min="1" required>
+                                    <label for="productQuantity">Cantidad:</label>
+                                </div>
+                            </div>
+                            <div class="text-right" style="margin-top: 1em;">
+                                <button type="button" id="addProductToOrder" class="nav-btn">+ Añadir Producto</button>
+                            </div>
+                            <table id="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Importe</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productTableBody">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                                        <td id="selectedProductsTotal">0</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </section>
+                    </div>
+
+                    <!-- Step 4: Observations -->
+                    <div class="form-step" data-step="4">
+                        <section class="observations-section">
+                            <h3>Observaciones Importantes</h3>
+                            <ul id="observations-list" class="list-group">
+                                <!-- Observations will be added here by JavaScript -->
+                            </ul>
+                            <div class="product-observations">
+                                <h4>Observaciones por Producto:</h4>
+                                <div class="observation-tabs-nav" id="productObservationTabsNav">
+                                    <!-- Product observation tabs will be dynamically added here -->
+                                </div>
+                                <div class="observation-tabs-content" id="productObservationTabsContent">
+                                    <!-- Product observation content (textareas) will be dynamically added here -->
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Step 5: Review & Totals -->
+                    <div class="form-step" data-step="5">
+                        <section class="totals">
+                            <h3>Resumen del Pedido</h3>
+                            <div class="total-grid">
+                                <label>Subtotal Productos:</label>
+                                <span id="subtotal">0</span>
+                                
+                                <div id="shipping-row" class="total-row hidden">
+                                    <label for="shipping">Envío:</label>
+                                    <input type="number" id="shipping" min="0" step="1" value="0">
+                                </div>
+
+                                <div class="total-row total-net-row">
+                                    <label class="total-net">Total Neto:</label>
+                                    <span id="total-net" class="total-net">0</span>
+                                </div>
+
+                                <div class="total-row">
+                                    <label for="deposit">Anticipo Pagado:</label>
+                                    <input type="number" id="deposit" min="0" step="1" value="0">
+                                </div>
+
+                                <div class="total-row balance-row">
+                                    <label class="balance">Resto a Pagar:</label>
+                                    <span id="balance" class="balance">0</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div id="pdf-export-area"></div>
+                        <button type="button" id="confirmOrder" class="nav-btn">Confirmar Pedido</button>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="form-nav">
+                    <button type="button" class="nav-btn prev">Anterior</button>
+                    <button type="button" class="nav-btn next">Siguiente</button>
+                    <button type="button" id="generate-pdf" class="nav-btn">Generar PDF</button>
+                </div>
+            </form>
+        </div>
+
+        <section class="order-list-section">
+            <h3>Listado de Pedidos</h3>
+            <table id="order-list-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Fecha Evento</th>
+                        <th>Fecha Entrega</th>
+                        <th>Anticipo</th>
+                        <th>Pendiente</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Order rows will be loaded here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="order-detail-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Detalles del Pedido #<span id="modal-order-id"></span></h3>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>Datos del Cliente</h4>
+                    <p><strong>Cliente:</strong> <span id="modal-client-name"></span></p>
+                    <p><strong>Teléfono:</strong> <span id="modal-client-phone"></span></p>
+                    <p><strong>Email:</strong> <span id="modal-client-email"></span></p>
+                </div>
+                <div class="modal-section">
+                    <h4>Detalles del Encargo</h4>
+                    <p><strong>Fecha del Evento:</strong> <span id="modal-event-date"></span></p>
+                    <p><strong>Fecha de Entrega:</strong> <span id="modal-delivery-date"></span> a las <span id="modal-delivery-time"></span></p>
+                    <p><strong>Entrega a Domicilio:</strong> <span id="modal-is-delivery-enabled"></span></p>
+                    <p id="modal-delivery-address-row"><strong>Dirección:</strong> <span id="modal-delivery-address"></span></p>
+                </div>
+                <div class="modal-section">
+                    <h4>Productos</h4>
+                    <ul id="modal-products-list">
+                        <!-- Products will be loaded here -->
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>Observaciones</h4>
+                    <ul id="modal-observations-list">
+                        <!-- Observations will be loaded here -->
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>Resumen de Pagos</h4>
+                    <p><strong>Subtotal:</strong> <span id="modal-subtotal"></span></p>
+                    <p id="modal-shipping-row"><strong>Envío:</strong> <span id="modal-shipping"></span></p>
+                    <p><strong>Total Neto:</strong> <span id="modal-total-net"></span></p>
+                    <p><strong>Anticipo Pagado:</strong> <span id="modal-deposit"></span></p>
+                    <p><strong>Resto a Pagar:</strong> <span id="modal-balance"></span></p>
+                </div>
+                <div class="modal-section">
+                    <h4>Estado del Pago</h4>
+                    <p><strong>Anticipo:</strong> <span id="modal-anticipo-status"></span></p>
+                    <p><strong>Pendiente:</strong> <span id="modal-pendiente-status"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='orders.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}

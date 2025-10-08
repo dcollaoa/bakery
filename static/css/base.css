@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500&family=MonteCarlo&display=swap');
+
+:root {
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+    --font-logo-cursive: 'MonteCarlo', cursive;
+    
+    /* "Rose Petal" Theme Colors - V2 (Sober & Elegant) */
+    --color-background: #FFF8F0; /* Creamy White */
+    --color-surface: #FFFFFF;
+    --color-primary: #F8BBD0; /* Soft Pink */
+    --color-accent: #D8A7B1; /* Dusty Rose */
+    --color-text: #5C4B51; /* Dark Rose Grey */
+    --color-border: #F4E8E9; /* Lighter Rose Grey */
+    --color-error: #D9534F;
+    --shadow-color: rgba(216, 167, 177, 0.15);
+    --switch-icon: '🌙';
+}
+
+.dark-theme {
+    --color-background: #2C1B21;
+    --color-surface: #3E2C34;
+    --color-primary: #F8BBD0;
+    --color-accent: #D8A7B1; /* Using the same Dusty Rose for consistency */
+    --color-text: #FCE4EC;
+    --color-border: #5C4B51;
+    --color-error: #E57373;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --switch-icon: '☀️';
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    padding: 0;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}

@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500&family=MonteCarlo&display=swap');
+
+:root {
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+    --font-logo-cursive: 'MonteCarlo', cursive;
+    
+    /* Theme Colors */
+    --color-background: #FFF5F7;
+    --color-surface: #FFFFFF;
+    --color-primary: #F8BBD0;
+    --color-accent: #AD1457;
+    --color-text: #5C4B51;
+    --color-border: #F4E8E9;
+    --color-error: #D9534F; /* A soft, elegant red */
+    --shadow-color: rgba(173, 20, 87, 0.15);
+    --switch-icon: '🌙';
+}
+
+.dark-theme {
+    --color-background: #2C1B21;
+    --color-surface: #3E2C34;
+    --color-primary: #F8BBD0;
+    --color-accent: #F06292;
+    --color-text: #FCE4EC;
+    --color-border: #5C4B51;
+    --color-error: #E57373;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --switch-icon: '☀️';
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23F8BBD0' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 3rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    width: 100%;
+    max-width: 950px;
+    background-color: var(--color-surface);
+    border-radius: 20px;
+    box-shadow: 0 15px 45px var(--shadow-color);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 3rem 4rem;
+    position: relative;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#theme-switcher {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#theme-switcher:hover {
+    background-color: var(--color-background);
+    border-color: var(--color-primary);
+}
+
+#theme-switcher::before {
+    content: var(--switch-icon);
+}
+
+.logo-container {
+    height: 150px; /* Adjust size as needed */
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-logo-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 0; /* Adjusted margin */
+}
+
+/* Progress Bar & Form Steps */
+.progress-bar { display: flex; justify-content: space-between; margin-bottom: 2rem; position: relative; }
+.progress-bar::before { content: ''; position: absolute; top: 50%; left: 0; transform: translateY(-50%); height: 4px; width: 100%; background-color: var(--color-border); z-index: 1; }
+.progress-bar-step { color: var(--color-text); background-color: var(--color-surface); border: 2px solid var(--color-border); border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: 700; z-index: 2; transition: all 0.3s ease; }
+.progress-bar-step.active { border-color: var(--color-accent); background-color: var(--color-accent); color: white; }
+.form-step { display: none; }
+.form-step.active { display: block; }
+
+/* Navigation */
+.form-nav { display: flex; justify-content: space-between; margin-top: 2rem; }
+.nav-btn { padding: 0.8rem 2rem; border: none; border-radius: 8px; font-family: var(--font-body); font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+.nav-btn.prev { background-color: transparent; color: var(--color-text); border: 2px solid var(--color-border); }
+.nav-btn.next, #generate-pdf { background-image: linear-gradient(to right, var(--color-accent), #C2185B); color: white; }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px var(--shadow-color); }
+
+#pdf-export-area { display: none; }
+
+header h1 { font-family: var(--font-heading); font-size: 3rem; color: var(--color-accent); transition: color 0.3s; }
+header h2 { font-family: var(--font-body); font-size: 1.2rem; font-weight: 500; color: var(--color-text); opacity: 0.8; }
+
+section { margin-bottom: 3rem; }
+.form-step section:last-of-type { margin-bottom: 0; }
+section h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-accent); padding-bottom: 0.75rem; margin-bottom: 2rem; border-bottom: 3px double var(--color-border); transition: color 0.3s, border-color 0.3s; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem 2rem; }
+
+.form-group { position: relative; }
+
+.form-group label {
+    font-weight: 500; font-size: 1rem; position: absolute; top: 0.8rem; left: 1rem;
+    color: var(--color-text); opacity: 0.7; pointer-events: none; transition: all 0.2s ease-out;
+}
+
+.form-group input[type="date"] + label, .form-group input[type="time"] + label {
+    top: -1.5rem; left: 0; font-size: 0.9rem; opacity: 1; color: var(--color-accent);
+}
+
+input, textarea {
+    width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--color-border); border-radius: 8px;
+    font-family: var(--font-body); font-size: 1rem; transition: all 0.3s ease-in-out;
+    background-color: var(--color-surface); color: var(--color-text);
+}
+
+input:focus, textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px hsla(330, 56%, 88%, 0.7); }
+
+input:focus + label, input:not(:placeholder-shown) + label, textarea:focus + label, textarea:not(:placeholder-shown) + label {
+    top: -1.5rem; left: 0; font-size: 0.9rem; opacity: 1; color: var(--color-accent);
+}
+
+/* Validation & Error Styles */
+.error-message {
+    color: var(--color-error);
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
+}
+
+.form-group.invalid .error-message {
+    max-height: 2rem; /* Make sure this is enough for the text */
+    opacity: 1;
+}
+
+.form-group.invalid input, .form-group.invalid textarea {
+    border-color: var(--color-error);
+}
+
+.form-group.invalid label {
+    color: var(--color-error);
+}
+
+input.invalid {
+    border-color: var(--color-error);
+}
+
+label.checkbox-group {
+    display: flex; align-items: center; gap: 0.5rem; pointer-events: auto;
+}
+
+#product-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+#product-table th, #product-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--color-border); transition: border-color 0.3s; }
+#product-table th { font-family: var(--font-body); font-weight: 500; font-size: 0.9rem; }
+
+#add-row { margin-top: 1.5rem; }
+.notes { margin-top: 2rem; }
+
+#add-row, .remove-row { border: none; border-radius: 8px; font-family: var(--font-body); font-weight: 500; cursor: pointer; transition: all 0.3s ease; padding: 0.6rem 1.2rem; }
+#add-row { background-image: linear-gradient(to right, var(--color-accent), #C2185B); color: white; }
+#add-row:hover { transform: translateY(-2px); box-shadow: 0 8px 15px var(--shadow-color); }
+.remove-row { background-color: transparent; color: #E57373; font-weight: bold; }
+.remove-row:hover { background-color: #FFEBEE; }
+.dark-theme .remove-row:hover { background-color: rgba(248, 187, 208, 0.1); }
+
+.totals .total-grid { width: 100%; max-width: 450px; margin-left: auto; display: grid; grid-template-columns: 1fr auto; gap: 1.2rem; align-items: center; }
+.total-grid .total-row { display: contents; }
+.total-grid label { font-weight: 500; text-align: right; }
+.total-grid span, .total-grid input { font-size: 1.1rem; font-weight: 500; text-align: right; }
+.total-net, .balance { font-family: var(--font-heading); font-size: 1.4rem !important; font-weight: 700 !important; color: var(--color-accent); transition: color 0.3s; }
+
+.terms ul { list-style-position: inside; color: #757575; }
+.dark-theme .terms ul { color: var(--color-text); opacity: 0.8; }
+.terms li {
+    margin-bottom: 0.5rem;
+}
+
+/*------------------------------------*\
+    #RESPONSIVE DESIGN
+\*------------------------------------*/
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 2rem;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    header h2 {
+        font-size: 1rem;
+    }
+
+    .progress-bar-step {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .totals .total-grid {
+        max-width: none; /* Allow it to take full width */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    
+    .container {
+        padding: 1.5rem 1rem;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    #theme-switcher {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        gap: 2rem 1.5rem;
+    }
+
+    .nav-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .totals .total-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .total-grid label, .total-grid span, .total-grid input {
+        text-align: left;
+    }
+
+    .total-grid .total-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 0.8rem;
+    }
+
+    .total-grid .total-row:last-child {
+        border-bottom: none;
+    }
+}
+
+/*------------------------------------*\
+    #PDF RECEIPT STYLES
+\*------------------------------------*/
+
+.pdf-container {
+    font-family: var(--font-body);
+    color: #333;
+    background-color: white;
+    padding: 40px;
+    padding-bottom: 20px; /* Added padding to ensure content is not cut off */
+    border: 1px solid var(--color-border);
+}
+
+.pdf-container .pdf-logo-img {
+    display: block;
+    max-width: 200px; /* Adjust as needed */
+    height: auto;
+    margin: 0 auto 20px auto; /* Center the image and add bottom margin */
+}
+
+.pdf-header {
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin */
+}
+
+.pdf-header h1 {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    color: var(--color-accent);
+    margin: 0;
+}
+
+.pdf-section {
+    margin-bottom: 30px;
+}
+
+.pdf-section h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.pdf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.pdf-grid .item strong {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 14px;
+}
+
+.pdf-grid .item span {
+    font-size: 14px;
+}
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.pdf-table th, .pdf-table td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.pdf-table th {
+    font-weight: 700;
+    background-color: #F9F9F9;
+}
+
+/* ... other styles ... */
+
+.pdf-totals {
+    width: 100%; /* Changed to full width */
+    margin-left: 0; /* Removed auto margin */
+    margin-top: 20px;
+}
+
+.pdf-totals .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.pdf-totals .total-row strong {
+    font-weight: 700;
+}
+
+.pdf-totals .grand-total {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-accent);
+    border-top: 2px solid var(--color-border);
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+.pdf-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.pdf-notes-section p {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #eeeeee;
+}

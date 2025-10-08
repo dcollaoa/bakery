@@ -1,0 +1,52 @@
+/* Progress Bar & Form Steps */
+.progress-bar { display: flex; justify-content: space-between; margin-bottom: 2rem; position: relative; }
+.progress-bar::before { content: ''; position: absolute; top: 50%; left: 0; transform: translateY(-50%); height: 4px; width: 100%; background-color: var(--color-border); z-index: 1; }
+.progress-bar-step { color: var(--color-text); background-color: var(--color-surface); border: 2px solid var(--color-border); border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-weight: 700; z-index: 2; transition: all 0.3s ease; }
+.progress-bar-step.active { border-color: var(--color-accent); background-color: var(--color-accent); color: var(--color-surface); }
+
+/* Navigation Buttons */
+.form-nav { display: flex; justify-content: space-between; margin-top: 2rem; }
+.nav-btn { padding: 0.8rem 2rem; border: 2px solid var(--color-accent); border-radius: 50px; /* Pill-shaped */ font-family: var(--font-body); font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+.nav-btn.prev { background-color: transparent; color: var(--color-accent); }
+.nav-btn.next, #generate-pdf { background-color: var(--color-accent); color: var(--color-surface); }
+.nav-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px var(--shadow-color); }
+
+/* Theme Switcher */
+#theme-switcher {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#theme-switcher:hover {
+    background-color: var(--color-background);
+    border-color: var(--color-primary);
+}
+
+#theme-switcher::before {
+    content: var(--switch-icon);
+}
+
+/* Product Table */
+#product-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+#product-table th, #product-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--color-border); transition: border-color 0.3s; }
+#product-table th { font-family: var(--font-body); font-weight: 500; font-size: 0.9rem; }
+
+/* Add/Remove Row Buttons */
+#add-row, .remove-row { border: none; border-radius: 50px; font-family: var(--font-body); font-weight: 500; cursor: pointer; transition: all 0.3s ease; padding: 0.6rem 1.2rem; }
+#add-row { background-color: var(--color-accent); color: var(--color-surface); margin-top: 1.5rem; }
+#add-row:hover { transform: translateY(-3px); box-shadow: 0 8px 15px var(--shadow-color); }
+.remove-row { background-color: transparent; color: var(--color-error); font-weight: bold; }
+.remove-row:hover { background-color: rgba(217, 83, 79, 0.1); }

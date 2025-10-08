@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plantilla Base{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button id="theme-switcher"></button>
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Nataly Antezana" class="header-logo-img">
+            </div>
+            <h1>{% block page_title %}Título de la Página{% endblock %}</h1>
+        </header>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="{{ url_for('serve_wizard_index') }}" class="{% if active_page == 'wizard' %}active{% endif %}">Inicio</a></li>
+                <li><a href="{{ url_for('serve_clientes') }}" class="{% if active_page == 'clientes' %}active{% endif %}">Gestión de Clientes</a></li>
+                <li><a href="{{ url_for('serve_productos') }}" class="{% if active_page == 'productos' %}active{% endif %}">Gestión de Productos</a></li>
+                <li><a href="{{ url_for('serve_orders') }}" class="{% if active_page == 'orders' %}active{% endif %}">Gestión de Pedidos</a></li>
+            </ul>
+        </nav>
+
+        {% block content %}
+        <!-- Content will be inserted here by child templates -->
+        {% endblock %}
+    </div>
+    {% block scripts %}
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

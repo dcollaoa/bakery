@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Clientes{% endblock %}
+
+{% block head_extra %}
+{% endblock %}
+
+{% block page_title %}Gestión de Clientes{% endblock %}
+
+{% block content %}
+        <section class="client-form-section">
+            <h3>Añadir/Editar Cliente</h3>
+            <form id="client-form">
+                <input type="hidden" id="client-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" id="client-name" placeholder=" " required>
+                        <label for="client-name">Nombre del Cliente:</label>
+                        <div class="error-message">Este campo es obligatorio.</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="client-phone" placeholder=" ">
+                        <label for="client-phone">Teléfono:</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="client-email" placeholder=" ">
+                        <label for="client-email">Email:</label>
+                    </div>
+                </div>
+                <div class="form-nav">
+                    <button type="submit" class="nav-btn" id="save-client-btn">Guardar Cliente</button>
+                    <button type="button" class="nav-btn prev" id="cancel-edit-btn" style="display:none;">Cancelar Edición</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="client-list-section">
+            <h3>Listado de Clientes</h3>
+            <table id="client-list-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Client rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='clientes.js') }}"></script>
+{% endblock %}

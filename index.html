@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Encargo</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/navbar.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <nav class="navbar">
+    <a href="#" class="navbar-brand">Mi Aplicación</a>
+    <button class="navbar-toggler" aria-label="Toggle navigation">
+        &#9776;
+    </button>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link">Inicio</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">Clientes</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">Pedidos</a>
+        </li>
+    </ul>
+</nav>
+    <main>
+    <div class="container">
+    <header>
+        <button id="theme-switcher"></button>
+        <div class="logo-container">
+            <img src="logo.png" alt="Nataly Antezana" class="header-logo-img">
+        </div>
+        <h1>Formulario de Encargo</h1>
+        <h2>¡Crea y gestiona tus pedidos fácilmente!</h2>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-bar-step active" data-step="1">1</div>
+        <div class="progress-bar-step" data-step="2">2</div>
+        <div class="progress-bar-step" data-step="3">3</div>
+    </div>
+
+    <form id="order-form">
+            <!-- Step 1: Client & Order Details -->
+            <div class="form-step active" data-step="1">
+                <section class="client-details">
+                    <h3>Datos del Cliente</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="client-name" placeholder=" " required>
+                            <label for="client-name">Nombre:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="client-phone" placeholder=" " required>
+                            <label for="client-phone">Teléfono:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="client-email" placeholder=" ">
+                            <label for="client-email">Email:</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" id="event-date" required>
+                            <label for="event-date">Fecha del Evento:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                    </div>
+                </section>
+                <section class="order-details">
+                    <h3>Detalles del Encargo</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="date" id="delivery-date" required>
+                            <label for="delivery-date">Fecha de Entrega/Recogida:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="time" id="delivery-time" required>
+                            <label for="delivery-time">Hora:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="checkbox-group">
+                                <input type="checkbox" id="enable-delivery">
+                                Habilitar entrega a domicilio
+                            </label>
+                        </div>
+                        <div id="delivery-address-group" class="form-group full-width hidden">
+                            <input type="text" id="delivery-address" placeholder=" ">
+                            <label for="delivery-address">Dirección de Entrega:</label>
+                            <div class="error-message">Este campo es obligatorio.</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Step 2: Product Details & Notes -->
+            <div class="form-step" data-step="2">
+                <section class="product-details">
+                    <h3>Detalles del Producto</h3>
+                    <table id="product-table">
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Descripción</th>
+                                <th>Precio Unitario</th>
+                                <th>Importe</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="number" class="quantity" value="1" min="1"></td>
+                                <td><input type="text" class="description" required></td>
+                                <td><input type="number" class="price" min="0" step="0.01" required></td>
+                                <td><span class="amount">0</span></td>
+                                <td><button type="button" class="remove-row">X</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" id="add-row">+ Añadir Producto</button>
+                </section>
+                <section class="notes">
+                    <h3>Observaciones Importantes</h3>
+                    <div class="form-group">
+                        <textarea id="notes" rows="4" placeholder=" "></textarea>
+                        <label for="notes">Observaciones:</label>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Step 3: Review & Totals -->
+            <div class="form-step" data-step="3">
+                <section class="totals">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="total-grid">
+                        <label>Subtotal Productos:</label>
+                        <span id="subtotal">0</span>
+                        
+                        <div id="shipping-row" class="total-row hidden">
+                            <label for="shipping">Envío:</label>
+                            <input type="number" id="shipping" min="0" step="1" value="0">
+                        </div>
+
+                        <div class="total-row total-net-row">
+                            <label class="total-net">Total Neto:</label>
+                            <span id="total-net" class="total-net">0</span>
+                        </div>
+
+                        <div class="total-row">
+                            <label for="deposit">Anticipo Pagado:</label>
+                            <input type="number" id="deposit" min="0" step="1" value="0">
+                        </div>
+
+                        <div class="total-row balance-row">
+                            <label class="balance">Resto a Pagar:</label>
+                            <span id="balance" class="balance">0</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="terms">
+                    <h3>Términos y Condiciones</h3>
+                    <ul>
+                        <li>El anticipo no es reembolsable.</li>
+                        <li>Cambios en el diseño o tamaño deben solicitarse con X días de antelación.</li>
+                        <li>La entrega tiene un costo adicional según la zona.</li>
+                    </ul>
+                </section>
+                <div id="pdf-export-area"></div>
+            </div>
+
+        <!-- Navigation -->
+        <div class="form-nav">
+            <button type="button" class="nav-btn prev">Anterior</button>
+            <button type="button" class="nav-btn next">Siguiente</button>
+            <button type="button" id="generate-pdf" class="nav-btn">Generar PDF</button>
+        </div>
+    </form>
+    </div>
+    </main>
+    <script src="static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Productos{% endblock %}
+
+{% block head_extra %}
+{% endblock %}
+
+{% block page_title %}Gestión de Productos{% endblock %}
+
+{% block content %}
+        <section class="product-form-section">
+            <h3>Añadir/Editar Producto</h3>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" id="product-name" placeholder=" " required>
+                        <label for="product-name">Nombre del Producto:</label>
+                        <div class="error-message">Este campo es obligatorio.</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="product-price" placeholder=" " min="0" step="0.01" required>
+                        <label for="product-price">Precio Unitario:</label>
+                        <div class="error-message">Este campo es obligatorio.</div>
+                    </div>
+                </div>
+                <div class="form-nav">
+                    <button type="submit" class="nav-btn" id="save-product-btn">Guardar Producto</button>
+                    <button type="button" class="nav-btn prev" id="cancel-edit-btn" style="display:none;">Cancelar Edición</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="product-list-section">
+            <h3>Listado de Productos</h3>
+            <table id="product-list-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Product rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='productos.js') }}"></script>
+{% endblock %}

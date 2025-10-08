@@ -1,0 +1,121 @@
+/*------------------------------------*\ 
+    #PDF RECEIPT STYLES
+\*------------------------------------*/
+
+#pdf-export-area { display: none; }
+
+.pdf-container {
+    font-family: var(--font-body);
+    color: #333;
+    background-color: white;
+    padding: 40px;
+    padding-bottom: 20px; /* Added padding to ensure content is not cut off */
+    border: 1px solid var(--color-border);
+}
+
+.pdf-container .pdf-logo-img {
+    display: block;
+    max-width: 200px; /* Adjust as needed */
+    height: auto;
+    margin: 0 auto 20px auto; /* Center the image and add bottom margin */
+}
+
+.pdf-header {
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin */
+}
+
+.pdf-header h1 {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    color: var(--color-accent);
+    margin: 0;
+}
+
+.pdf-section {
+    margin-bottom: 30px;
+}
+
+.pdf-section h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.pdf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.pdf-grid .item strong {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 14px;
+}
+
+.pdf-grid .item span {
+    font-size: 14px;
+}
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.pdf-table th, .pdf-table td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.pdf-table th {
+    font-weight: 700;
+    background-color: #F9F9F9;
+}
+
+.pdf-totals {
+    width: 100%; /* Changed to full width */
+    margin-left: 0; /* Removed auto margin */
+    margin-top: 20px;
+}
+
+.pdf-totals .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.pdf-totals .total-row strong {
+    font-weight: 700;
+}
+
+.pdf-totals .grand-total {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-accent);
+    border-top: 2px solid var(--color-border);
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+.pdf-footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.pdf-notes-section p {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #eeeeee;
+}
